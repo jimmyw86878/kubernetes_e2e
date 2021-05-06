@@ -1,0 +1,34 @@
+config:
+  runStrategy:
+    runs: 1
+    minSecondsBetweenRuns: 1
+    maxSecondsBetweenRuns: 2
+
+  exitStrategy:
+    strategy: fail-fast
+
+scenarios:
+- name: SuccessPod
+  description: >
+    Verifies that after a pod is killed,
+    it's succesfully rescheduled after 30 seconds.
+  steps:
+  # kill a kube-system pod
+  - podAction:
+      matches:
+        - namespace: kube-system
+      filters:
+        - randomSample:
+            size: 1
+      actions:
+        - kill:
+            probability: 1
+  - wait:
+      seconds: 30
+  # make sure all pods are running in the namespace
+  - podAction:
+      matches:
+        - namespace: kube-system
+      actions:
+        - checkPodState:
+            state: Running
