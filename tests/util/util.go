@@ -1,15 +1,30 @@
 package util
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"time"
 )
 
-//Exec to execute command in container
-func Exec(cmd string) (string, error) {
-	res, err := exec.Command("/bin/bash", "-c", cmd).Output()
+var (
+	defaultTimeout = 30 * time.Second
+)
+
+//Exec to execute command in container, default timeout is 30 seconds
+func Exec(cmd string, timeout ...time.Duration) (string, error) {
+	execTimeout := defaultTimeout
+	if len(timeout) != 0 {
+		execTimeout = timeout[0]
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), execTimeout)
+	defer cancel()
+	res, err := exec.CommandContext(ctx, "/bin/bash", "-c", cmd).Output()
+	if ctx.Err() == context.DeadlineExceeded {
+		return "Command timed out", fmt.Errorf("Command time out")
+	}
 	if err != nil {
 		return "", fmt.Errorf("Error when executing command %s, err: %s", cmd, err.Error())
 	}
