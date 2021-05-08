@@ -45,9 +45,6 @@ sudo bash dev.sh -- clean-test-env
 
 This will remove `Powerfulseal` container.
 
-- `config-path`: should be the target k8s cluster config
-- Be sure above command is executed under Kubernetes_e2e folder
-
 ### Run test
 
 You can write your testcases under `tests/testcases` folder and add into `tests/k8s_test.go`.
