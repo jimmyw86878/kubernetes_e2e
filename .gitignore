@@ -1,2 +1,3 @@
 *.xml
 vendor/
+./kubectl-node_shell
