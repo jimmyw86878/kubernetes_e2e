@@ -15,13 +15,11 @@ Usage: $0  [options] -- COMMAND
 Options:
     --target-server         Target Kubernetes cluster
     --config-path           Give Kubernetes config
-    --testcase              To run specific testcase
     --use-minikube          Using minikube for your cluster
       
 Commands:
     start-test-env          To set up test environment
     clean-test-env          To clean test environment
-    run-test                To run testcases
 EOF
 }
 
@@ -33,10 +31,6 @@ while [ "$#" -gt 0 ]; do
         ;;
     (--config-path)
         config_path=$2
-        shift 2
-        ;;
-    (--testcase)
-        export GINKGO_TESTCASE=$2
         shift 2
         ;;
     (--use-minikube)
@@ -79,11 +73,6 @@ case "$1" in
 (clean-test-env)
         echo "clean-test-env"
         docker rm -f kubeclient
-        ;;
-(run-test)
-        echo "run test"
-        export ACK_GINKGO_DEPRECATIONS=1.16.2
-        ginkgo -r -timeout 3600s
         ;;
 (*)     usage
         exit 0
