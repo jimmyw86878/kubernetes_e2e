@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
-	"os"
 	"os/exec"
 	"time"
 )
@@ -51,15 +50,4 @@ func ExecYaml(cmd string) bool {
 		return true
 	}
 	return false
-}
-
-//CheckRunOrNot is to check this testcase should run or not. Based on environment variable `GINKGO_TESTCASE`
-func CheckRunOrNot(testname string) bool {
-	if val, exists := os.LookupEnv("GINKGO_TESTCASE"); exists {
-		if val == testname {
-			return true
-		}
-		return false
-	}
-	return true
 }
