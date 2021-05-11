@@ -52,29 +52,25 @@ You can write your testcases under `tests/testcases` folder and add into `tests/
 To run all testcases:
 
 ```
-bash dev.sh -- run-test
+ginkgo -r -timeout 3600s
 ```
 
 To run specific testcases:
 
 ```
-bash dev.sh --testcase "$testcaseName" -- run-test
+ginkgo -r -timeout 3600s --focus="$testcaseName"
 ```
 
 - `$testcaseName` will be the name of your Ginkgo context defined in `tests/k8s_test.go`. 
 
-```
-...
-var (
-	testcase1 = "Testing k8s health"
-	testcase2 = "Testing test_pod_fail yaml"
-	testcase3 = "Testing test_pod_success yaml"
-)
-...
-```
-
-Ex: 
+Example: 
 
 ```
-bash dev.sh --testcase "Testing k8s health" -- run-test
+ginkgo -r -timeout 3600s --focus="Testing k8s health"
+```
+
+To pass some arguments you want to use:
+
+```
+ginkgo -r -timeout 3600s -- -test1="parameter1" -test2="parameter2"
 ```

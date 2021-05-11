@@ -135,4 +135,4 @@ fi
 trap "EC=\$?; $kubectl delete pod --wait=false $pod 2>/dev/null || true; exit \$EC" EXIT INT TERM
 
 echo "spawning \"$pod\" on \"$node\""
-$kubectl run --image "$image" --restart=Never --overrides="$overrides" -ti "$pod" $generator
+$kubectl run --image "$image" --restart=Never --overrides="$overrides" --labels="app=nsenter" -ti "$pod" $generator
